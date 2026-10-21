@@ -16,6 +16,14 @@ void list_debug(node_t *list) {
 	printf("prev: %p\nkey: %d\nnext: %p\n", list->prev, list->key, list->next);
 }
 
+node_t* list_search(node_t *list, int key) {
+	node_t *node = list;
+	while (node != NULL && node->key != key) {
+		node = node->next;
+	}
+	return node;
+}
+
 void list_append(node_t **list, int key) {
 	if (list == NULL) {
 		fprintf(stderr, "list is null\n");
@@ -71,5 +79,9 @@ int main(void) {
 		node = node->prev;
 	}
 	printf("\n");
+
+	node_t* x = list_search(head, 9);
+	list_debug(x);
+
 	return 0;
 }
