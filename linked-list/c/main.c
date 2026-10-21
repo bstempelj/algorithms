@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 struct node {
+	struct node *prev;
 	int key;
 	struct node *next;
 };
@@ -14,24 +15,37 @@ int main(void) {
 		return 1;
 	}
 
-	node_t *root = malloc(sizeof(node_t));
-	root->key = nums[0];
-	root->next = NULL;
+	node_t *head = malloc(sizeof(node_t));
+	head->key = nums[0];
+	head->next = NULL;
 
 	node_t *node = NULL;
-	node_t *prev = root;
+	node_t *prev = head;
 
 	for (int i = 1; i < len; i++) {
 		node = malloc(sizeof(node_t));
+		node->prev = prev;
 		node->key = nums[i];
 		node->next = NULL;
 		prev->next = node;
 		prev = node;
 	}
+	node_t *tail = node;
 
-	while (root != NULL) {
-		printf("%d\n", root->key);
-		root = root->next;
+	printf("from head to tail: ");
+	node = head;
+	while (node != NULL) {
+		printf("%d ", node->key);
+		node = node->next;
 	}
+	printf("\n");
+
+	printf("from tail to head: ");
+	node = tail;
+	while (node != NULL) {
+		printf("%d ", node->key);
+		node = node->prev;
+	}
+	printf("\n");
 	return 0;
 }
