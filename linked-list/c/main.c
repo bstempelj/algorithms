@@ -8,6 +8,31 @@ struct node {
 };
 typedef struct node node_t;
 
+void list_debug(node_t *list) {
+	if (list == NULL) {
+		fprintf(stderr, "trying to print a NULL list\n");
+		return;
+	}
+	printf("prev: %p\nkey: %d\nnext: %p\n", list->prev, list->key, list->next);
+}
+
+void list_append(node_t **list, int key) {
+	if (list == NULL) {
+		fprintf(stderr, "list is null\n");
+		return;
+	}
+	node_t *node = malloc(sizeof(node_t));
+	node->key = key;
+	node->next = NULL;
+	node->prev = *list;
+
+	if (*list != NULL) {
+		(*list)->next = node;
+	} else {
+		*list = node;
+	}
+}
+
 int main(void) {
 	int nums[] = { 1, 4, 9, 16 };
 	int len = sizeof(nums) / sizeof(int);
@@ -15,9 +40,8 @@ int main(void) {
 		return 1;
 	}
 
-	node_t *head = malloc(sizeof(node_t));
-	head->key = nums[0];
-	head->next = NULL;
+	node_t *head = NULL;
+	list_append(&head, nums[0]);
 
 	node_t *node = NULL;
 	node_t *prev = head;
