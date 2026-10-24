@@ -1,2 +1,2 @@
 build:
-	gcc main.c -o linked-list
+	gcc test.c main.c -o linked-list

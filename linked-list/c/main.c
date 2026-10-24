@@ -1,12 +1,8 @@
+#include "list.h"
+#include "test.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-
-struct node {
-	struct node *prev;
-	int key;
-	struct node *next;
-};
-typedef struct node node_t;
 
 void list_debug(node_t *list) {
 	if (list == NULL) {
@@ -16,12 +12,38 @@ void list_debug(node_t *list) {
 	printf("prev: %p\nkey: %d\nnext: %p\n", list->prev, list->key, list->next);
 }
 
+node_t* list_new(int key) {
+	node_t *node = malloc(sizeof(node_t));
+	node->prev = NULL;
+	node->key = key;
+	node->next = NULL;
+	return node;
+}
+
 node_t* list_search(node_t *list, int key) {
 	node_t *node = list;
 	while (node != NULL && node->key != key) {
 		node = node->next;
 	}
 	return node;
+}
+
+void list_prepend(node_t **list, int key) {
+	if (list == NULL) {
+		fprintf(stderr, "list is null\n");
+		return;
+	}
+	node_t *node = malloc(sizeof(node_t));
+	node->prev = NULL;
+	node->key = key;
+	node->next = *list;
+
+	if (*list == NULL) {
+		(*list) = node;
+	} else {
+		(*list)->prev = node;
+		(*list) = node;
+	}
 }
 
 void list_append(node_t **list, int key) {
@@ -64,6 +86,9 @@ int main(void) {
 	}
 	node_t *tail = node;
 
+	puts("prepend 0:");
+	list_prepend(&head, 0);
+
 	printf("from head to tail: ");
 	node = head;
 	while (node != NULL) {
@@ -81,7 +106,22 @@ int main(void) {
 	printf("\n");
 
 	node_t* x = list_search(head, 9);
-	list_debug(x);
+
+	printf("test_list_prepend...");
+	if (test_list_prepend()) {
+		printf("OK\n");
+	}
+	
+	printf("test_list_append...");
+	if (test_list_append()) {
+		printf("OK\n");
+	}
+
+	printf("test_list_search...");
+	if (test_list_search()) {
+		printf("OK\n");
+	}
+
 
 	return 0;
 }
