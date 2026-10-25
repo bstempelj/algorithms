@@ -4,127 +4,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void list_debug(node_t *list) {
-	if (list == NULL) {
-		fprintf(stderr, "trying to print a NULL list\n");
-		return;
-	}
-	printf("prev: %p\nkey: %d\nnext: %p\n", list->prev, list->key, list->next);
-}
-
-node_t* list_new(int key) {
-	node_t *node = malloc(sizeof(node_t));
-	node->prev = NULL;
-	node->key = key;
-	node->next = NULL;
-	return node;
-}
-
-node_t* list_search(node_t *list, int key) {
-	node_t *node = list;
-	while (node != NULL && node->key != key) {
-		node = node->next;
-	}
-	return node;
-}
-
-void list_prepend(node_t **list, int key) {
-	if (list == NULL) {
-		fprintf(stderr, "list is null\n");
-		return;
-	}
-	node_t *node = malloc(sizeof(node_t));
-	node->prev = NULL;
-	node->key = key;
-	node->next = *list;
-
-	if (*list == NULL) {
-		(*list) = node;
-	} else {
-		(*list)->prev = node;
-		(*list) = node;
-	}
-}
-
-void list_append(node_t **list, int key) {
-	if (list == NULL) {
-		fprintf(stderr, "list is null\n");
-		return;
-	}
-	node_t *node = malloc(sizeof(node_t));
-	node->key = key;
-	node->next = NULL;
-	node->prev = *list;
-
-	if (*list != NULL) {
-		(*list)->next = node;
-	} else {
-		*list = node;
-	}
-}
-
 int main(void) {
-	int nums[] = { 1, 4, 9, 16 };
-	int len = sizeof(nums) / sizeof(int);
-	if (len == 0) {
-		return 1;
-	}
-
-	node_t *head = NULL;
-	list_append(&head, nums[0]);
-
-	node_t *node = NULL;
-	node_t *prev = head;
-
-	for (int i = 1; i < len; i++) {
-		node = malloc(sizeof(node_t));
-		node->prev = prev;
-		node->key = nums[i];
-		node->next = NULL;
-		prev->next = node;
-		prev = node;
-	}
-	node_t *tail = node;
-
-	puts("prepend 0:");
-	list_prepend(&head, 0);
-
-	printf("from head to tail: ");
-	node = head;
-	while (node != NULL) {
-		printf("%d ", node->key);
-		node = node->next;
-	}
-	printf("\n");
-
-	printf("from tail to head: ");
-	node = tail;
-	while (node != NULL) {
-		printf("%d ", node->key);
-		node = node->prev;
-	}
-	printf("\n");
-
-	node_t* x = list_search(head, 9);
-
 	printf("test_list_new...");
 	if (test_list_new()) {
 		printf("OK\n");
+	} else {
+		printf("NOK\n");
 	}
 
 	printf("test_list_prepend...");
 	if (test_list_prepend()) {
 		printf("OK\n");
+	} else {
+		printf("NOK\n");
 	}
 	
 	printf("test_list_append...");
 	if (test_list_append()) {
 		printf("OK\n");
+	} else {
+		printf("NOK\n");
 	}
 
 	printf("test_list_search...");
 	if (test_list_search()) {
 		printf("OK\n");
+	} else {
+		printf("NOK\n");
+	}
+
+	printf("test_array_to_linked_list...");
+	if (test_array_to_linked_list()) {
+		printf("OK\n");
+	} else {
+		printf("NOK\n");
 	}
 
 	return 0;
