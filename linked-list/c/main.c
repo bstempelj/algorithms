@@ -107,6 +107,11 @@ int main(void) {
 
 	node_t* x = list_search(head, 9);
 
+	printf("test_list_new...");
+	if (test_list_new()) {
+		printf("OK\n");
+	}
+
 	printf("test_list_prepend...");
 	if (test_list_prepend()) {
 		printf("OK\n");
@@ -121,7 +126,6 @@ int main(void) {
 	if (test_list_search()) {
 		printf("OK\n");
 	}
-
 
 	return 0;
 }
