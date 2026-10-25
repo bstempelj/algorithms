@@ -1,6 +1,24 @@
 #include "list.h"
 #include <stdio.h>
 
+bool test_list_new(void) {
+	node_t *head = list_new(1);
+
+	if (head->prev != NULL) {
+		fprintf(stderr, "expected head->prev=NULL, got %p", head->prev);
+		return false;
+	}
+	if (head->key != 1) {
+		fprintf(stderr, "expected head->key=1, got %d", head->key);
+		return false;
+	}
+	if (head->next != NULL) {
+		fprintf(stderr, "expected head->next=NULL, got %p", head->next);
+		return false;
+	}
+	return true;
+}
+
 bool test_list_prepend(void) {
 	node_t *head = list_new(1);	
 	list_prepend(&head, 0);
