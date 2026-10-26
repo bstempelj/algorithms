@@ -1,21 +1,44 @@
 #include "list.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 bool test_list_new(void) {
 	node_t *head = list_new(1);
 
 	if (head->prev != NULL) {
 		fprintf(stderr, "expected head->prev=NULL, got %p\n", head->prev);
+		list_free(&head);
 		return false;
 	}
 	if (head->key != 1) {
 		fprintf(stderr, "expected head->key=1, got %d\n", head->key);
+		list_free(&head);
 		return false;
 	}
 	if (head->next != NULL) {
 		fprintf(stderr, "expected head->next=NULL, got %p\n", head->next);
+		list_free(&head);
 		return false;
 	}
+
+	list_free(&head);
+	return true;
+}
+
+bool test_list_new_from_array(void) {
+	int keys[] = {1,2,3,4,5,6};
+	node_t *head = list_new_from_array(keys, sizeof(keys) / sizeof(int));
+
+	int i = 0;
+	for (node_t *node = head; node != NULL; node = node->next) {
+		int key = keys[i++];
+		if (node->key != key) {
+			fprintf(stderr, "expected %d, got %d\n", key, node->key);
+			list_free(&head);
+			return false;
+		}
+	}
+	list_free(&head);
 	return true;
 }
 
@@ -25,8 +48,10 @@ bool test_list_prepend(void) {
 
 	if (head->key != 0) {
 		fprintf(stderr, "expected 0, got %d\n", head->key);
+		list_free(&head);
 		return false;
 	}
+	list_free(&head);
 	return true;
 }
 
@@ -36,8 +61,10 @@ bool test_list_append(void) {
 
 	if (head->next->key != 1) {
 		fprintf(stderr, "expected 1, got %d\n", head->key);
+		list_free(&head);
 		return false;
 	}
+	list_free(&head);
 	return true;
 }
 
@@ -50,8 +77,10 @@ bool test_list_search(void) {
 
 	if (head->next->next->key != 2) {
 		fprintf(stderr, "expected 2, got %d\n", head->key);
+		list_free(&head);
 		return false;
 	}
+	list_free(&head);
 	return true;
 }
 
@@ -73,6 +102,7 @@ bool test_array_to_linked_list(void) {
 	while (node != NULL) {
 		if (node->key != nums[i]) {
 			fprintf(stderr, "expected node->key=%d, got %d\n", nums[i], node->key);
+			list_free(&head);
 			return false;
 		}
 		i++; node = node->next;
@@ -80,6 +110,7 @@ bool test_array_to_linked_list(void) {
 
 	if (i != len) {
 		fprintf(stderr, "expected i==len, got i=%d len=%d\n", i, len);
+		list_free(&head);
 		return false;
 	}
 
@@ -88,9 +119,11 @@ bool test_array_to_linked_list(void) {
 	while (node != NULL) {
 		if (node->key != nums[i]) {
 			fprintf(stderr, "expected node->key=%d, got %d\n", nums[i], node->key);
+			list_free(&head);
 			return false;
 		}
 		i--; node = node->prev;
 	}
+	list_free(&head);
 	return true;
 }

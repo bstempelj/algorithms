@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 bool test_list_new(void);
+bool test_list_new_from_array(void);
 bool test_list_prepend(void);
 bool test_list_append(void);
 bool test_list_search(void);

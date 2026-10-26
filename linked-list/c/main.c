@@ -13,6 +13,7 @@ typedef struct test test_t;
 int main(void) {
 	test_t tests[] = {
 		{ "test_list_new", test_list_new },
+		{ "test_list_new_from_array", test_list_new_from_array },
 		{ "test_list_prepend", test_list_prepend },
 		{ "test_list_append", test_list_append },
 		{ "test_list_search", test_list_search },
