@@ -93,3 +93,22 @@ void list_append(node_t **list, int key) {
 		*list = node;
 	}
 }
+
+void list_remove(node_t **head, int key) {
+	if (head == NULL) {
+		fprintf(stderr, "list is null\n");
+		return;
+	}
+
+	if ((*head)->key == key) {
+		node_t *temp = *head;
+		*head = (*head)->next;
+		free(temp);
+	}
+	for (node_t *node = *head; node != NULL; node = node->next) {
+		if (node->key == key) {
+			node->prev->next = node->next;
+			free(node);
+		}
+	}
+}

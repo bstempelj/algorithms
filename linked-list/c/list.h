@@ -15,5 +15,6 @@ node_t* list_new_from_array(int *keys, int len);
 node_t* list_search(node_t *list, int key);
 void list_prepend(node_t **list, int key);
 void list_append(node_t **list, int key);
+void list_remove(node_t **head, int key);
 
 #endif // LIST_H

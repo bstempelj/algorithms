@@ -1,6 +1,7 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 bool test_list_new(void) {
 	node_t *head = list_new(1);
@@ -82,6 +83,19 @@ bool test_list_search(void) {
 	}
 	list_free(&head);
 	return true;
+}
+
+bool test_list_remove(void) {
+	int keys[] = {1,2,3,4,5,6};
+	node_t *head = list_new_from_array(keys, sizeof(keys) / sizeof(int));
+
+	list_remove(&head, 1);
+	if (head->key != 2) {
+		fprintf(stderr, "expected 2, got %d\n", head->key);
+		list_free(&head);
+		return false;
+	}
+	list_free(&head);
 }
 
 bool test_array_to_linked_list(void) {
