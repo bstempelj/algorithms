@@ -8,7 +8,7 @@ struct node {
 };
 typedef struct node node_t;
 
-void list_debug(node_t *list);
+void list_debug(node_t *head);
 void list_free(node_t **list);
 node_t* list_new(int key);
 node_t* list_new_from_array(int *keys, int len);

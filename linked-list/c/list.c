@@ -3,12 +3,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void list_debug(node_t *list) {
-	if (list == NULL) {
+void list_debug(node_t *head) {
+	if (head == NULL) {
 		fprintf(stderr, "trying to print a NULL list\n");
 		return;
 	}
-	printf("prev: %p\nkey: %d\nnext: %p\n", list->prev, list->key, list->next);
+	for (node_t *node = head; node != NULL; node = node->next) {
+		if (node->next == NULL) {
+			printf("{%p,%d,%p}\n", node->prev, node->key, node->next);
+		} else {
+			printf("{%p,%d,%p}-->", node->prev, node->key, node->next);
+		}
+	}
 }
 
 node_t* list_new(int key) {
