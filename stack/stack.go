@@ -10,6 +10,10 @@ type Stack struct {
 	size int
 }
 
+func (s *Stack) Top() int {
+	return s.data[s.size-1]
+}
+
 func (s *Stack) Empty() bool {
 	return s.size == 0
 }
@@ -41,6 +45,8 @@ func main() {
 	}
 	_, err := s.Push(50)
 	fmt.Println(err)
+
+	fmt.Println(s.Top())
 
 	for i := 0; i < 50; i++ {
 		x, _ := s.Pop()
