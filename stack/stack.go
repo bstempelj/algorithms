@@ -10,8 +10,16 @@ type Stack struct {
 	size int
 }
 
+func (s *Stack) Empty() bool {
+	return s.size == 0
+}
+
+func (s *Stack) Full() bool {
+	return s.size == len(s.data)
+}
+
 func (s *Stack) Push(x int) (int, error) {
-	if s.size == len(s.data) {
+	if s.Full() {
 		return x, errors.New("stack is at max capacity")
 	}
 	s.data[s.size] = x; s.size++
@@ -19,7 +27,7 @@ func (s *Stack) Push(x int) (int, error) {
 }
 
 func (s *Stack) Pop() (int, error) {
-	if s.size == 0 {
+	if s.Empty() {
 		return 0, errors.New("stack is empty")
 	}
 	s.size--; x := s.data[s.size]
